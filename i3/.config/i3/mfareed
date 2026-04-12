@@ -1,0 +1,67 @@
+# remove window borders
+for_window [class="^.*"] border none
+
+# set terminal to always start with terminal when using shortcut
+bindsym $mod+Return exec ghostty -e tmux
+
+# brightness hotkeys
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5%-
+# keyboard backlight hotkeys
+bindsym XF86KbdBrightnessUp exec --no-startup-id light -s sysfs/leds/asus::kbd_backlight -A 35
+bindsym XF86KbdBrightnessDown exec --no-startup-id light -s sysfs/leds/asus::kbd_backlight -U 35
+
+# pulseaudio audio hotkeys
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+
+# screenshots
+## save to clipboard
+bindsym Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+## save to file
+bindsym Ctrl+Print exec --no-startup-id maim "$HOME/Pictures/screenshots/$(date)"
+bindsym Ctrl+Alt+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "$HOME/Pictures/screenshots/$(date)"
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select "$HOME/Pictures/screenshots/$(date)"
+
+# run rofi
+bindsym $mod+d exec --no-startup-id "$HOME/.config/rofi/scripts/launcher_t4"
+bindsym $mod+x exec --no-startup-id "$HOME/.config/rofi/scripts/powermenu_t5"
+
+bindsym $mod+Ctrl+h move workspace to output left
+bindsym $mod+Ctrl+l move workspace to output right
+
+# configure triple display setup
+# exec_always --no-startup-id xrandr --output eDP --rate 60.00 
+# exec_always --no-startup-id xrandr --output DP-1-1 --auto --right-of eDP 
+# exec_always --no-startup-id xrandr --output HDMI-A-0 --auto --rotate left --left-of eDP
+# exec_always --no-startup-id xrandr --output DP-1-1 --auto --right-of eDP &
+# exec_always --no-startup-id xrandr --output HDMI-A-0 --rotate left --auto --left-of eDP &
+
+workspace 1 output DP-1-1
+workspace 2 output HDMI-A-0
+workspace 3 output eDP
+
+# swap escape and caps lock
+exec_always --no-startup-id setxkbmap -option caps:swapescape
+# configure touchpad to detect taps
+exec_always --no-startup-id "$HOME/.config/i3/touchpad.sh"
+exec_always --no-startup-id "$HOME/.config/i3/tkl_kbd_conf.sh"
+# allow bluetoothctl commands
+exec_always --no-startup-id rfkill unblock bluetooth
+# exec_always --no-startup-id xinput set-prop 21 335 1
+# run compositor
+exec_always --no-startup-id xcompmgr -c
+
+# run polybar
+exec_always --no-startup-id "$HOME/.config/polybar/shapes/launch.sh"
+# change background
+# exec --no-startup-id ~/.fehbg

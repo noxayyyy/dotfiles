@@ -1,0 +1,5 @@
+xmodmap -e "keysym Menu = Print"
+xmodmap -e "keysym Home = XF86AudioPrev"
+xmodmap -e "keysym Prior = XF86AudioNext"
+xmodmap -e "keysym End = XF86AudioPlay"
+xmodmap -e "keysym Next = XF86AudioMute"
