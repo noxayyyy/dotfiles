@@ -39,16 +39,6 @@ bindsym $mod+x exec --no-startup-id "$HOME/.config/rofi/scripts/powermenu_t5"
 bindsym $mod+Ctrl+h move workspace to output left
 bindsym $mod+Ctrl+l move workspace to output right
 
-# configure triple display setup
-# exec_always --no-startup-id xrandr --output eDP --rate 60.00 
-# exec_always --no-startup-id xrandr --output DP-1-1 --auto --right-of eDP 
-# exec_always --no-startup-id xrandr --output HDMI-A-0 --auto --rotate left --left-of eDP
-# exec_always --no-startup-id xrandr --output DP-1-1 --auto --right-of eDP &
-# exec_always --no-startup-id xrandr --output HDMI-A-0 --rotate left --auto --left-of eDP &
-
-workspace 1 output DP-1-1
-workspace 2 output HDMI-A-0
-workspace 3 output eDP
 
 # swap escape and caps lock
 exec_always --no-startup-id setxkbmap -option caps:swapescape
@@ -58,10 +48,11 @@ exec_always --no-startup-id "$HOME/.config/i3/tkl_kbd_conf.sh"
 # allow bluetoothctl commands
 exec_always --no-startup-id rfkill unblock bluetooth
 # exec_always --no-startup-id xinput set-prop 21 335 1
+
 # run compositor
-exec_always --no-startup-id xcompmgr -c
+exec_always --no-startup-id picom --backend glx
 
 # run polybar
 exec_always --no-startup-id "$HOME/.config/polybar/shapes/launch.sh"
 # change background
-# exec --no-startup-id ~/.fehbg
+exec_always --no-startup-id ~/.fehbg
